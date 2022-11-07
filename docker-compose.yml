@@ -1,0 +1,44 @@
+version: '3.7'
+
+# Set a docker network with ip range
+networks:
+  brooklyn:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+
+services:
+  db:
+    image: postgres:12
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: brooklyn_dev
+    ports:
+      - 5434:5432
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    networks:
+      brooklyn:
+        ipv4_address: 172.19.0.11
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    container_name: grafana
+    ports:
+      - 3001:3000
+    networks:
+      brooklyn:
+        ipv4_address: 172.19.0.12
+
+  vault:
+    image: vault:latest
+    restart: always
+    container_name: vault
+    ports:
+      - 8200:8200
+    networks:
+      brooklyn:
+        ipv4_address: 172.19.0.13

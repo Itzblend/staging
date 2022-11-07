@@ -1,0 +1,11 @@
+__pycache__
+.mypy_cache
+.vscode
+.vscode-test
+data
+venv
+
+# Store empty volume folders but only .gitkeep files
+volumes/**
+!volumes/**/
+!volumes/**/.gitkeep
